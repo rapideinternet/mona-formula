@@ -1,0 +1,15 @@
+ check process postfix with pidfile /var/spool/postfix/pid/master.pid
+   alert mona@rapide.nl but not on { pid }
+   group vmail
+   start program = "/etc/init.d/postfix start"
+   stop  program = "/etc/init.d/postfix stop"
+   if failed port 587 protocol smtp then restart
+   if 5 restarts within 5 cycles then timeout
+   depends on postfix_rc
+
+ check file postfix_rc with path /etc/init.d/postfix
+   group vmail
+   if failed checksum then unmonitor
+   if failed permission 755 then unmonitor
+   if failed uid root then unmonitor
+   if failed gid root then unmonitor
