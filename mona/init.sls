@@ -19,4 +19,4 @@ is_monit_installed:
     file.directory:
         - makedirs: True
         - require:
-            - pkg: is_monit_installed
+            - pkg:  is_monit_installed

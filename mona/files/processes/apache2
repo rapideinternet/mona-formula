@@ -1,0 +1,9 @@
+check process apache2 with pidfile /var/run/apache2/apache2.pid
+    alert mona@rapide.nl but not on { pid }
+    group www-data
+    start program = "/etc/init.d/apache2 start"
+    stop  program = "/etc/init.d/apache2 stop"
+    if failed host {{ pillar['__reclass__']['nodename'] }} port 80
+        protocol HTTP request "/monit.html" then restart
+    if cpu > 60% for 2 cycles then alert
+    if 5 restarts within 5 cycles then timeout

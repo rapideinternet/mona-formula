@@ -1,0 +1,28 @@
+set daemon 120
+set logfile /var/log/monit.log
+set idfile /var/lib/monit/id
+set statefile /var/lib/monit/state
+set mailserver localhost,
+               smtp.rapide.nl port 587
+set eventqueue
+  basedir /var/lib/monit/events
+  slots 100
+set mail-format {
+ from: $HOST-monit@rapidehosting.nl
+ subject: $HOST - $EVENT $SERVICE
+ message: $EVENT Service $SERVICE
+                 Date:        $DATE
+                 Action:      $ACTION
+                 Host:        $HOST
+                 Description: $DESCRIPTION
+}
+set alert mona@rapide.nl not on { instance }
+ check system $HOST
+  {% for key, rule in pillar['mona']['rules'].iteritems() %}
+    {{ rule }}
+  {% endfor %}
+
+ check filesystem "root" with path /dev/vda1
+  if space usage > 85% then alert
+
+include /etc/monit/conf.d/*
