@@ -1,3 +1,5 @@
+{% from "mona/macro.jinja" import sls_block %}
+
 monit_installed:
     pkg.installed:
         - name: monit
@@ -37,4 +39,11 @@ monit_installed:
         - require:
             - pkg: monit_installed
 {% endfor %}
+{% endif %}
+
+{% if salt['pillar.get']('mona:apache2_file_check') is defined %}
+{{ salt['pillar.get']('mona:apache2_file_check:location', '/var/www/default/httpdocs/monit.html') }}:
+  file.managed:
+    - source: {{ salt['pillar.get']('mona:apache2_file_check:source', 'salt://roles/rapidpanel/files/monit/monit.html') }}
+    {{ sls_block(salt['pillar.get']('mona:apache2_file_check:opts')) }}
 {% endif %}
