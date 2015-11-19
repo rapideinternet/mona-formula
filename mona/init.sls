@@ -29,7 +29,7 @@ monit_installed:
       - pkg: monit_installed
 
 {% if salt['pillar.get']('mona:processes') is defined %}
-{% for item in salt['pillar.get']('mona:processes').iteritems() %}
+{% for item in salt['pillar.get']('mona:processes') %}
 /etc/monit/conf.d/{{ item }}:
     file.managed:
         - source: salt://mona/files/processes/{{ item }}
