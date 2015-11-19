@@ -44,6 +44,6 @@ monit_installed:
 {% if salt['pillar.get']('mona:apache2_file_check') is defined %}
 {{ salt['pillar.get']('mona:apache2_file_check:location', '/var/www/default/httpdocs/monit.html') }}:
   file.managed:
-    - source: {{ salt['pillar.get']('mona:apache2_file_check:source', 'salt://roles/rapidpanel/files/monit/monit.html') }}
+    - source: {{ salt['pillar.get']('mona:apache2_file_check:source', 'salt://mona/files/monit.html') }}
     {{ sls_block(salt['pillar.get']('mona:apache2_file_check:opts')) }}
 {% endif %}
