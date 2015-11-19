@@ -27,3 +27,14 @@ monit_installed:
     - template: jinja
     - require:
       - pkg: monit_installed
+
+{% if salt['pillar.get']('mona:processes') is defined %}
+{% for item in salt['pillar.get']('mona:processes').iteritems() %}
+/etc/monit/conf.d/{{ $item }}:
+    file.managed:
+        - source: salt://mona/files/processes/{{ $item }}
+        - template: jinja
+        - require:
+            - pkg: monit_installed
+{% endfor %}
+{% endif %}
