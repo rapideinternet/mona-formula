@@ -22,7 +22,7 @@ set alert mona@rapide.nl not on { instance }
     {{ rule }}
   {% endfor %}
 
- check filesystem "root" with path /dev/vda1
+ check filesystem "root" with path /
   if space usage > {{ salt['pillar.get']('mona:space_usage', '95') }}% then alert
 
 include /etc/monit/conf.d/*
