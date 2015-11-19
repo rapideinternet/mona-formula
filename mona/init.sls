@@ -20,3 +20,10 @@ is_monit_installed:
         - makedirs: True
         - require:
             - pkg: is_monit_installed
+
+/etc/monit/conf.d/salt-minion:
+  file.managed:
+    - source: salt://mona/files/salt-minion
+    - template: jinja
+    - require:
+      - pkg: mona_pkg
