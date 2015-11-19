@@ -23,6 +23,6 @@ set alert mona@rapide.nl not on { instance }
   {% endfor %}
 
  check filesystem "root" with path /dev/vda1
-  if space usage > 85% then alert
+  if space free < {{ salt['pillar.get']('mona:space_free', '5') }} GB then alert
 
 include /etc/monit/conf.d/*

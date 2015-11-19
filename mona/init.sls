@@ -36,6 +36,7 @@ monit_installed:
     file.managed:
         - source: salt://mona/files/processes/{{ item }}
         - template: jinja
+        - makeDirs: True
         - require:
             - pkg: monit_installed
 {% endfor %}
