@@ -1,5 +1,5 @@
 check process opendkim with pidfile /var/run/opendkim/opendkim.pid
-
+    alert mona@rapide.nl but not on { pid }
     start program = "/etc/init.d/opendkim start"
     stop  program = "/etc/init.d/opendkim stop"
 
